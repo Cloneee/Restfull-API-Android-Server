@@ -42,13 +42,13 @@ router
     try {
       let todo = await Todo.findById(req.params.id);
       if (!todo) {
-        return res.send("Not found");
+        return res.status(404).send("Not found");
       }
       todo.title = req.body.title;
       todo.content = req.body.content;
       todo.status = req.body.status;
-      todo.save();
-      return req.json(todo);
+      await todo.save();
+      return res.json(todo);
     } catch (error) {
       return res.status(500).send(error);
     }
