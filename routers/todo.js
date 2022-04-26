@@ -11,14 +11,14 @@ router
     return res.json(todos);
   })
   .post(async (req, res) => {
-    const newTodo = new Todo({
+    const newTodo = await Todo.create({
       title: req.body.title,
       content: req.body.content,
       status: req.body.status,
       user: req.locals.payload.userId,
     });
-    await newTodo.save();
-    return res.json(newTodo);
+    const returnTodo = await Todo.findById(newTodo._id).select({__v: false});
+    return res.json(returnTodo);
   })
   .delete(async (req, res) => {
     await Todo.deleteMany({});
@@ -29,18 +29,20 @@ router
   .route("/:id")
   .get(async (req, res) => {
     try {
-      const todo = await Todo.findById(req.params.id);
+      const todo = await Todo.findById(req.params.id).select({
+        __v: false,
+      });
       if (!todo) {
         return res.send("Not found");
       }
       return res.json(todo);
     } catch (error) {
-      return res.status(500).send(error)
+      return res.status(500).send(error);
     }
   })
   .put(async (req, res) => {
     try {
-      let todo = await Todo.findById(req.params.id);
+      let todo = await Todo.findById(req.params.id).select({__v: false});
       if (!todo) {
         return res.status(404).send("Not found");
       }
