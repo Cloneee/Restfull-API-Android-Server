@@ -34,7 +34,7 @@ app.get("/", (req,res)=>{
 app.use('*', (req,res)=>{
 	res.status(404).json({err: "Path not found"})
 })
-app.listen(3000, function () {
-	console.log("Server is running http://localhost:3000");
+app.listen(process.env.PORT || 3000, function () {
+	console.log("Server is running http://localhost:" + process.env.PORT);
 });
 module.exports = app
