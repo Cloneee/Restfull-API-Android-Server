@@ -8,6 +8,8 @@ const userRouter = require("./routers/user")
 const todoRouter = require("./routers/todo")
 const authJwt = require("./helpers/jwt");
 const errorHandle = require("./helpers/error-handle");
+const PORT = process.env.PORT || 3000
+const DB_URI = process.env.DB_URI || ""
 
 const api = process.env.API_URL;
 const app = express();
@@ -23,7 +25,7 @@ app.use(morgan("tiny"));
 process.env.NODE_ENV !== "test"? app.use(authJwt()) : null
 app.use(errorHandle);
 
-mongoose.connect("mongodb+srv://user:user@learningmongo1.89tk5.gcp.mongodb.net/android?retryWrites=true")
+mongoose.connect(DB_URI)
 // Routers
 
 app.use(`${api}/user`, userRouter);
@@ -34,7 +36,7 @@ app.get("/", (req,res)=>{
 app.use('*', (req,res)=>{
 	res.status(404).json({err: "Path not found"})
 })
-app.listen(process.env.PORT || 3000, function () {
-	console.log("Server is running http://localhost:" + process.env.PORT);
+app.listen(PORT, function () {
+	console.log("Server is running http://localhost:" + PORT);
 });
 module.exports = app
