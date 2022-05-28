@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const noteSchema = new mongoose.Schema({
+  id:{
+    type: String,
+    unique: true,
+  },
   title: {
     type: String,
     required: true,
@@ -10,21 +14,18 @@ const noteSchema = new mongoose.Schema({
     default: "",
   },
   tagId: {
-    type: string,
+    type: String,
     default: "DEFAULT",
   },
   isPin: {
     type: Boolean,
     default: false,
   },
-  dateNotify: Date,
-  password: string,
+  dateNotify: String,
+  password: String,
   dateCreated: {
     type: Date,
     default: Date.now,
-  },
-  dateDelete:{
-    type: Date,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

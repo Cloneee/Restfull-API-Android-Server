@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const userRouter = require("./routers/user")
 const todoRouter = require("./routers/todo")
+const noteRouter = require("./routers/note")
 const authJwt = require("./helpers/jwt");
 const errorHandle = require("./helpers/error-handle");
 const PORT = process.env.PORT || 3000
@@ -30,8 +31,9 @@ mongoose.connect(DB_URI)
 
 app.use(`${api}/user`, userRouter);
 app.use(`${api}/todo`, todoRouter);
+app.use(`${api}/note`, noteRouter);
 app.get("/", (req,res)=>{
-	res.json({msg: "OK"})
+	res.json({msg: "Home"})
 })
 app.use('*', (req,res)=>{
 	res.status(404).json({err: "Path not found"})

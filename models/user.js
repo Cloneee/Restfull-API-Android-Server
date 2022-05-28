@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
   email: String,
   setting:{
     
-  }
+  },
+  updateDate: Date
 });
 userSchema.plugin(uniqueValidator);
 userSchema.index({ "$**": "text" });
