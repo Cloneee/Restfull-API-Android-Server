@@ -31,7 +31,7 @@ router
   .route("/:id")
   .get(async (req, res) => {
     try {
-      const note = await Note.findById(req.params.id).select({
+      const note = await Note.find({id: req.params.id}).select({
         __v: false,
       });
       if (!note) {
@@ -44,7 +44,7 @@ router
   })
   .put(async (req, res) => {
     try {
-      let note = await Note.findByIdAndUpdate(req.params.id, req.body, {new: true}).select({ __v: false });
+      let note = await Note.findOneAndUpdate({id: req.params.id}, req.body, {new: true}).select({ __v: false });
       if (!note) {
         return res.status(404).send("Not found");
       }
@@ -56,7 +56,7 @@ router
   })
   .delete(async (req, res) => {
     try {
-      const note = await Note.findByIdAndRemove(req.params.id);
+      const note = await Note.findOneAndDelete({id: req.params.id});
       if (!note) {
         return res.status(404).send("ID not found");
       }
