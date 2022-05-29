@@ -31,7 +31,7 @@ router
   .route("/:id")
   .get(async (req, res) => {
     try {
-      const note = await Note.find({id: req.params.id}).select({
+      const note = await Note.findOne({id: req.params.id}).select({
         __v: false,
       });
       if (!note) {
