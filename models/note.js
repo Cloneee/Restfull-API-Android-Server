@@ -15,7 +15,6 @@ const noteSchema = new mongoose.Schema({
   },
   tagId: {
     type: String,
-    default: "DEFAULT",
   },
   isPin: {
     type: Boolean,

@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -12,14 +13,22 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   otp: {
-    code: Number,
+    code: String,
     dateExpire: Date,
   },
-  email: String,
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   setting:{
     
   },
-  updateDate: Date
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  modifiedDate: String
 });
 userSchema.plugin(uniqueValidator);
 userSchema.index({ "$**": "text" });
