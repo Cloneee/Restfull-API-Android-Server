@@ -29,6 +29,7 @@ router.route("/login").post((req, res) => {
         return res.status(200).json({
           username: foundUser.username,
           token: token,
+          verify: foundUser.verify
         });
       } else {
         return res.status(400).json({ message: "Password is wrong!" });
