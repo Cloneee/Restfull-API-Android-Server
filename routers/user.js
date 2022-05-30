@@ -37,7 +37,6 @@ router.route("/login").post((req, res) => {
     return res.status(400).json({ message: "Username not found" });
   });
 });
-
 router.route("/register").post(async (req, res) => {
   let salt = parseInt(process.env.SALT_ROUND);
   let hashPassWord = bcrypt.hashSync(req.body.password, salt);
@@ -61,7 +60,6 @@ router.route("/register").post(async (req, res) => {
     }
   });
 });
-
 router.route("/password/change").post(async (req, res) => {
   try {
     const foundUser = await User.findById(req.locals.payload.userId);
@@ -94,7 +92,6 @@ router.route("/password/recover").post(async (req, res) => {
   await User.findOneAndUpdate({email: req.body.email}, { password: hashPassWord });
   return res.status(200).json({ message: "Change password successfully." });
 });
-
 router.route("/email").post(async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -115,7 +112,6 @@ router.route("/email").post(async (req, res) => {
     res.status(500).json({ message: error });
   }
 });
-
 router
   .route("/otp")
   .post(async (req, res) => {
@@ -148,5 +144,21 @@ router
       return res.status(500).send(error);
     }
   });
+router
+.route("/modified-date")
+.get(async (req,res)=>{
+  const user = await User.findById(req.locals.payload.userId)
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  return res.status(200).json({modifiedDate: user.modifiedDate})
+})
+.post(async (req,res)=>{
+  const user = await User.findByIdAndUpdate(req.locals.payload.userId, {modifiedDate: req.body.modifiedDate}, {new: true})
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  return res.status(200).json({modifiedDate: user.modifiedDate})
+})
 
 module.exports = router;
