@@ -28,6 +28,7 @@ router.route("/login").post((req, res) => {
         );
         return res.status(200).json({
           username: foundUser.username,
+          email: foundUser.email,
           token: token,
           verify: foundUser.verify
         });
