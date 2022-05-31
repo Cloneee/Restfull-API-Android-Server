@@ -19,6 +19,8 @@ const sendOTP = (email, otpCode) => {
   return new Promise((resolve) =>{
     transporter.sendMail(option, (err, info) => {
       if (err) {
+        console.log(process.env.MAIL_USER);
+        console.log(process.env.MAIl_PASS);
         console.log(err);
         return resolve(false);
       }
